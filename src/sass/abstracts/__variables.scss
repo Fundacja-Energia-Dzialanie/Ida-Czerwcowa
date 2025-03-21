@@ -1,0 +1,67 @@
+@use '__functions' as fn;
+@use 'sass:map';
+
+$spacing-map: (
+	0: 0,
+	1: 6,
+	2: 12,
+	3: 18,
+	4: 24,
+	5: 30,
+	6: 36,
+	7: 42,
+	8: 48,
+	9: 54,
+	10: 60
+);
+
+$brand-colors: (
+	'body-background': #F2F7FD,
+	'primary-color': #C81C5D,
+	'color-title': #fafafa,
+	'border-stats': #192741,
+	'scrollbar': #adadad,
+	'scrollbar-thumb': #ffffff
+);
+
+:root {
+	@each $key, $value in $spacing-map {
+		--sp-#{$key}: #{$value}px;
+	}
+
+	@each $name, $color in $brand-colors {
+		--#{$name}: #{$color};
+		--#{$name}-rgb: #{fn.hex-to-rgb($color)};
+	}
+
+	--font-family-base: "Figtree", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	--font-size-xs: clamp(#{fn.rem(10)}, 2.5vw, #{fn.rem(12)});
+	--font-size-sm: clamp(#{fn.rem(12)}, 3vw, #{fn.rem(14)});
+	--font-size-base: clamp(#{fn.rem(13)}, 3.2vw, #{fn.rem(15)});
+	--font-size-lg: clamp(#{fn.rem(14)}, 3.5vw, #{fn.rem(16)});
+	--font-size-xl: clamp(#{fn.rem(16)}, 4vw, #{fn.rem(20)});
+	--font-size-2xl: clamp(#{fn.rem(20)}, 5vw, #{fn.rem(28)});
+	--font-size-3xl: clamp(#{fn.rem(28)}, 7vw, #{fn.rem(44)});
+	--font-size-4xl: clamp(#{fn.rem(36)}, 8vw, #{fn.rem(64)});
+	--font-size-5xl: clamp(#{fn.rem(44)}, 9vw, #{fn.rem(72)});
+
+	// --font-size-xs: #{fn.rem(12)};
+	// --font-size-sm: #{fn.rem(14)};
+	// --font-size-base: #{fn.rem(15)};
+	// --font-size-lg: #{fn.rem(16)};
+	// --font-size-xl: #{fn.rem(20)};
+	// --font-size-2xl: #{fn.rem(28)};
+	// --font-size-3xl: #{fn.rem(44)};
+	// --font-size-4xl: #{fn.rem(64)};
+	// --font-size-5xl: #{fn.rem(72)};
+
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
+	--body-color: #212121;
+
+	--selection: 200, 28, 93;
+	--radius-1: 4px;
+}

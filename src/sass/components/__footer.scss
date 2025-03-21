@@ -1,0 +1,6 @@
+@use '../abstracts/__mixins' as mx;
+
+footer {
+	text-align: center;
+	padding: var(--sp-2) var(--sp-0);
+}

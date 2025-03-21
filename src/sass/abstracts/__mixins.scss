@@ -1,0 +1,244 @@
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap, $gap: 0) {
+	display: flex;
+	flex-direction: $direction;
+	justify-content: $justify;
+	align-items: $align;
+	flex-wrap: $wrap;
+
+	@if $gap != 0 {
+		gap: $gap;
+	}
+}
+
+@mixin absolute($top: auto, $right: auto, $bottom: auto, $left: auto) {
+	position: absolute;
+	top: $top;
+	right: $right;
+	bottom: $bottom;
+	left: $left;
+}
+
+@mixin center-absolute($position: both, $translateY: -50%, $translateX: -50%, $custom-transform: unset, $is-important: false) {
+	position: absolute;
+
+	@if $position == both {
+		top: 50%;
+		left: 50%;
+		@if $is-important {
+			@if $custom-transform != unset {
+				transform: translate($translateY, $translateX) $custom-transform !important;
+			} @else {
+				transform: translate($translateY, $translateX) !important;
+			}
+		} @else {
+			@if $custom-transform != unset {
+				transform: translate($translateY, $translateX) $custom-transform;
+			} @else {
+				transform: translate($translateY, $translateX);
+			}
+		}
+	}
+
+	@else if $position == vertical {
+		top: 50%;
+		transform: translateY($translateY);
+	}
+
+	@else if $position == horizontal {
+		left: 50%;
+		transform: translateX($translateX);
+	}
+}
+
+@mixin center-x($translateX: -50%, $custom-transform: unset) {
+	transform: translateX($translateX);
+
+	@if $custom-transform != unset {
+		transform: translateX($translateX) $custom-transform;
+	}
+}
+
+@mixin center-y($translateY: -50%, $custom-transform: unset) {
+	transform: translateY($translateY);
+
+	@if $custom-transform !=unset {
+		transform: translateY($translateY) $custom-transform;
+	}
+}
+
+@mixin truncate($lines: 1) {
+	@if $lines == 1 {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	@else {
+		display: -webkit-box;
+		-webkit-line-clamp: $lines;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+}
+
+@mixin text-reset($margin: var(--sp-0), $padding: var(--sp-0)) {
+	margin: $margin;
+	padding: $padding;
+}
+
+@mixin list-reset( $margin: var(--sp-0), $padding: var(--sp-0)) {
+	margin: $margin;
+	padding: $padding;
+	list-style: none;
+}
+
+@mixin grid($columns: 1, $gap: 0) {
+	display: grid;
+	grid-template-columns: repeat($columns, 1fr);
+
+	@if $gap !=0 {
+		gap: $gap;
+	}
+}
+
+@mixin image-cover {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+@mixin link-hover {
+	@include transition(color);
+
+	&:hover {
+		color: var(--color-primary);
+		cursor: pointer;
+	}
+}
+
+@mixin transition($property: all, $duration: 0.2s, $timing-function: linear) {
+	transition: $property $duration $timing-function;
+}
+
+@mixin text-gradient($start-color, $end-color) {
+	background: linear-gradient(to right, $start-color, $end-color);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+@mixin custom-scrollbar($width: 6px, $track-color: var(--color-body-bg), $thumb-color: var(--color-primary)) {
+	&::-webkit-scrollbar {
+		width: $width;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: $track-color;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: $thumb-color;
+		border-radius: var(--border-radius-sm);
+	}
+}
+
+@mixin input-base {
+	font-family: var(--font-family-base);
+	font-weight: 500;
+	background-color: var(--color-input-bg);
+	border: 1px solid var(--color-input-border);
+	color-scheme: dark;
+	color: var(--color-text);
+	padding: calc(var(--sp-2) + 3px) var(--sp-3);
+	border-radius: var(--sp-1);
+	transition: 
+		background-color 0.2s linear,
+		border-color 0.2s linear,
+		color 0.2s linear;
+}
+
+@mixin loading-animation($size: 30px) {
+	width: $size;
+	height: $size;
+	animation: loader 1s infinite linear;
+
+	@keyframes loader {
+		0% {
+			transform: rotate(0deg);
+			border-radius: 50%;
+		}
+
+		50% {
+			transform: rotate(90deg);
+			background-color: var(--color-primary);
+			border-radius: 0;
+		}
+
+		100% {
+			transform: rotate(180deg);
+			border-radius: 50%;
+		}
+	}
+}
+
+@mixin shadow-effect($color: var(--color-primary), $opacity: 0.3) {
+	box-shadow: 0 0 12px rgba($color, $opacity);
+}
+
+@mixin keyframe-animation($name, $duration: 1s, $timing-function: ease, $iteration: infinite) {
+	animation: $name $duration $timing-function $iteration;
+}
+
+@mixin container {
+	max-width: var(--container-max-width);
+	width: 100%;
+	margin: var(--sp-0) auto;
+	padding: var(--sp-0) var(--container-padding);
+}
+
+@mixin clip-path($polygon) {
+	clip-path: polygon($polygon);
+}
+
+@mixin hide-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+@mixin animation($name, $duration: 1s, $timing-function: ease, $delay: 0s, $iteration: 1, $direction: normal, $fill-mode: none) {
+	animation: $name $duration $timing-function $delay $iteration $direction $fill-mode;
+}
+
+@mixin shop-item-styles($item) {
+    @if map-get($item, margin-left) {
+        position: relative;
+        margin-left: #{map-get($item, margin-left)};
+    }
+
+    .web-77__item-image {
+        @if map-get($item, image) {
+            background-image: url(#{map-get($item, image)});
+        }
+        @if map-get($item, clip) {
+            clip-path: #{map-get($item, clip)};
+        }
+    }
+
+    &.web-77__item--active {
+        .web-77__item-image {
+            clip-path: #{map-get($item, active-clip)};
+        }
+    }
+
+    .web-77__item-information {
+        @if map-get($item, info-width) {
+            width: #{map-get($item, info-width)};
+        }
+        @if map-get($item, info-margin) {
+            margin-left: #{map-get($item, info-margin)};
+        }
+    }
+}

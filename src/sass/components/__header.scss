@@ -1,0 +1,112 @@
+@use '../abstracts/__mixins' as mx;
+@use '../abstracts/_breakpoints' as bp;
+
+header {
+	padding-top: var(--sp-6);
+
+	.itv-logo {
+		@include mx.flex(row, center, center, $gap: var(--sp-8));
+
+		@include bp.respond-from('mobile') {
+			@include bp.respond-to('custom-desktop') {
+				flex-wrap: wrap;
+				gap: var(--sp-3);
+			}
+		}
+	}
+
+	img {
+		user-select: none;
+		pointer-events: none;
+
+		@include bp.respond-from('mobile') {
+			@include bp.respond-to('custom-desktop') {
+				width: 100%;
+				transform: scale(0.9);
+				transform-origin: center;
+			}
+		}
+	}
+
+	h1 {
+		@include mx.text-reset($margin: var(--sp-5) var(--sp-0) var(--sp-0) var(--sp-0));
+		text-align: center;
+		font-size: var(--font-size-3xl);
+		font-weight: var(--font-weight-bold);
+		color: var(--color-title);
+		text-shadow: 0 0 6px rgba(0, 0, 0, 0.85);
+
+		@include bp.respond-from('desktop') {
+			@include bp.respond-to('desktop-md') {
+				font-size: var(--font-size-2xl);
+			}
+		}
+
+		@include bp.respond-from('desktop-sm') {
+			@include bp.respond-to('desktop') {
+				font-size: var(--font-size-2xl);
+			}
+		}
+
+		@include bp.respond-from('mobile') {
+			@include bp.respond-to('custom-desktop') {
+				font-size: var(--font-size-2xl);
+				width: 100%;
+			}
+		}
+
+		span {
+			display: block;
+			font-size: var(--font-size-2xl);
+			font-weight: var(--font-weight-semibold);
+
+			@include bp.respond-from('desktop') {
+				@include bp.respond-to('desktop-md') {
+					font-size: var(--font-size-xl);
+				}
+			}
+
+			@include bp.respond-from('desktop-sm') {
+				@include bp.respond-to('desktop') {
+					font-size: var(--font-size-xl);
+				}
+			}
+		}
+	}
+
+	.itv-about {
+		background-color: rgba( var(--body-background-rgb), 0.32 );
+		backdrop-filter: blur(36px);
+
+		.itv-section {
+			background-color: transparent;
+			backdrop-filter: none;
+		}
+	}
+
+	.itv-content {
+		backdrop-filter: blur(36px);
+		padding: var(--sp-4) var(--sp-0);
+
+		h2, p {
+			@include mx.text-reset;
+
+			&:is(h2) {
+				font-size: var(--font-size-3xl);
+				text-align: center;
+				text-transform: uppercase;
+				font-weight: var(--font-weight-bold);
+
+				span {
+					color: var(--primary-color);
+				}
+			}
+
+			&:is(p) {
+				line-height: 1.7;
+				font-size: var(--font-size-xl);
+				font-weight: var(--font-weight-semibold);
+			}
+		}
+	}
+}

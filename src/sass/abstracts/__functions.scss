@@ -1,0 +1,129 @@
+@use 'sass:math';
+@use 'sass:map';
+@use 'sass:color';
+@use 'sass:string';
+@use 'sass:meta';
+
+// Convert px to rem
+@function rem($pixels, $context: 16) {
+	@return math.div($pixels, $context) * 1rem;
+}
+
+// Convert px to em
+@function em($pixels, $context: 16) {
+	@return math.div($pixels, $context) * 1em;
+}
+
+// Strip unit
+@function strip-unit($number) {
+	@if meta.type-of($number)=='number' and not math.is-unitless($number) {
+		@return math.div($number, ($number * 0 + 1));
+	}
+
+	@return $number;
+}
+
+// CSS color to RGB values
+@function color-to-rgb($color) {
+	@return '#{color.channel($color, "red")}, #{color.channel($color, "green")}, #{color.channel($color, "blue")}';
+}
+
+// RGB to CSS color
+@function rgb-to-color($r, $g, $b) {
+	@return rgb($r, $g, $b);
+}
+
+// Fluid typography
+@function fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+	$u1: math.unit($min-vw);
+	$u2: math.unit($max-vw);
+	$u3: math.unit($min-font-size);
+	$u4: math.unit($max-font-size);
+
+	@if $u1 ==$u2 and $u1 ==$u3 and $u1 ==$u4 {
+		$min-vw: strip-unit($min-vw);
+		$max-vw: strip-unit($max-vw);
+		$min-font-size: strip-unit($min-font-size);
+		$max-font-size: strip-unit($max-font-size);
+
+		$slope: math.div($max-font-size - $min-font-size, $max-vw - $min-vw);
+		$y-axis-intersection: -1 * $min-vw * $slope + $min-font-size;
+
+		@return clamp(#{$min-font-size}px, #{$y-axis-intersection}px + #{$slope * 100}vw, #{$max-font-size}px);
+	}
+}
+
+// Get spacing value
+@function spacing($key) {
+	@if map.has-key($spacings, $key) {
+		@return map.get($spacings, $key);
+	}
+
+	@warn 'Spacing key #{$key} not found in $spacings map';
+	@return null;
+}
+
+// Calculate aspect ratio
+@function aspect-ratio($width, $height) {
+	@return math.div($height, $width) * 100%;
+}
+
+// Get color with opacity
+@function color-opacity($color, $opacity) {
+	@return rgba($color, $opacity);
+}
+
+// Convert hex to RGB
+@function hex-to-rgb($hex) {
+	$red: color.channel($hex, "red", $space: rgb);
+	$green: color.channel($hex, "green", $space: rgb);
+	$blue: color.channel($hex, "blue", $space: rgb);
+
+	@return '#{$red}, #{$green}, #{$blue}';
+}
+
+// Calculate contrast ratio
+@function contrast-ratio($color) {
+	$luminance: color.lightness($color);
+	@return if($luminance > 50, 'dark', 'light');
+}
+
+// Get font-size
+@function font-size($key) {
+	@if map.has-key($font-sizes, $key) {
+		@return map.get($font-sizes, $key);
+	}
+
+	@warn 'Font size key #{$key} not found in $font-sizes map';
+	@return null;
+}
+
+// Validate number
+@function validate-number($value) {
+	@if meta.type-of($value)=='number' {
+		@return $value;
+	}
+
+	@error '#{$value} is not a number';
+}
+
+@function golden-ratio($value, $increment) {
+	$ratio: 1.618034;
+	@return $value * math.pow($ratio, $increment);
+}
+
+@function to-css-var($name, $fallback: null) {
+	@if $fallback {
+		@return var(--#{$name}, $fallback);
+	}
+
+	@return var(--#{$name});
+}
+
+@function vw($px, $viewport: 1920) {
+	@return math.div($px, $viewport) * 100vw;
+}
+
+@function vh($px, $viewport: 1080) {
+	@return math.div($px, $viewport) * 100vh;
+}
