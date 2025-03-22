@@ -298,6 +298,10 @@ header .itv-content h2:is(p), header .itv-content p:is(p) {
   line-height: 1.7;
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
+  text-align: justify;
+}
+header .itv-content h2:is(p) span, header .itv-content p:is(p) span {
+  color: var(--primary-color);
 }
 
 .itv-section {
